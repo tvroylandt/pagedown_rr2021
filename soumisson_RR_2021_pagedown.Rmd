@@ -31,9 +31,10 @@ Les fondations du package et son fonctionnement seront aussi abordées ici. {pag
 - comment gérer les contenus dans les marges ;
 - comment définir et utiliser les sauts de pages ;
 - comment tirer profit des contraintes de dimension de la page ;
-- bonne pratique de développement de thèmes à l'usage du statisticien.
+- bonne pratique de développement de thèmes à l'usage du statisticien ;
+- trouver du support et de la documentation.
 
-3. Par la suite, des utilisations réelles seront présentées et leur construction sera analysée. Il s'agira principalement de 
+3. Par la suite, des utilisations réelles seront rapidement présentées et leur construction sera analysée. Il s'agira principalement de 
 
 - la brochure de la [démarche PROPRE](https://github.com/spyrales/propre.brochure) (et notamment ici la construction de la fonction sous-jacente) ;
 - la construction de rapport automatisés par ville pour [une association du Connecticut](https://rfortherestofus.com/success-stories/pschousing/).
