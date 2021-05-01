@@ -1,0 +1,41 @@
+---
+title: "Pagedown - utilisations possibles et création de thèmes"
+author:
+- Thomas Vroylandt^[Tillac, thomas@tillac-data.com]
+output: pdf_document
+indent: true
+---
+
+\begin{center}
+\textbf{Résumé}
+\end{center}
+
+La génération de PDF paginés depuis RMarkdown est souvent passée par LaTeX (comme le prouve le présent résumé). Depuis la création du package [{pagedown}](https://www.rstudio.com/resources/rstudioconf-2019/pagedown-creating-beautiful-pdfs-with-r-markdown-and-css/), d'autres possibilités sont offertes aux utilisateurs pour créer des documents de qualité, plus abordable dans leur développement puisqu'utilisant des technologies Web (HTML, CSS, JS) et visuellement attractifs.
+
+L'objet de cette présentation est de décrire les possibilités offertes par {pagedown}, d'en montrer quelques utilisations, et d'aborder la personnalisation de son propre template.
+
+\noindent \textbf{Mots-clefs} : RMarkdown - Pagedown - Design
+
+## Développement 
+
+Cette présentation s'articulera autour de trois temps :
+
+1. La première partie présentera le package, ses principales fonctions (`html_paged` et `chrome_print` principalement) ainsi que des propositions satellites proposant des templates ([{pagedreport}](https://pagedreport.rfortherestofus.com/), modèles de CV).
+
+Les fondations du package et son fonctionnement seront aussi abordées ici. {pagedown} repose ainsi sur [{paged.js}](https://www.pagedjs.org/), une libraire JavaScript permettant le support des règles Paged Media. Expliciter ce lien, c'est aussi permettre l'utilisation par la suite de la documentation propre à {paged.js}.
+
+2. La deuxième partie se centrera sur la construction de thèmes simple pour {pagedown} :
+
+- quels sont les éléments à modifier ?
+- comment construire la page de garde et la dernière page ;
+- comment gérer les contenus dans les marges ;
+- comment définir et utiliser les sauts de pages ;
+- comment tirer profit des contraintes de dimension de la page ;
+- bonne pratique de développement de thèmes à l'usage du statisticien.
+
+3. Par la suite, des utilisations réelles seront présentées et leur construction sera analysée. Il s'agira principalement de 
+
+- la brochure de la [démarche PROPRE](https://github.com/spyrales/propre.brochure) (et notamment ici la construction de la fonction sous-jacente) ;
+- la construction de rapport automatisés par ville pour [une association du Connecticut](https://rfortherestofus.com/success-stories/pschousing/).
+
+Ces deux cas d'usages représentent d'un coté une utilisation plutôt pour les fonctionnalités "rapport" et pour l'autre pour des fiches. Ils permettent alors de comprendre la façon dont les règles ont été utilisées et implementées dans des projets concrets.
