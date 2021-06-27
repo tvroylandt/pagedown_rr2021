@@ -1,0 +1,127 @@
+---
+title: "Pagedown - utilisations possibles et création de thèmes"
+subtitle: "Rencontres R 2021"
+author: "Thomas Vroylandt"
+date: "13 juillet 2021"
+output: tourmentin::slides
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+## Qui suis-je ?
+
+- Statisticien (Unédic actuellement)
+- Activité freelance
+- Notamment partenariat avec R For the Rest of Us
+- Présentation issue des travaux que j'ai pu mener :
+
+  - pagedreport
+  - CT Data
+  - PROPRE
+  - autres
+  
+---
+# {pagedown} ???
+
+---
+## Le problème
+
+Génération de "beaux" pdf directement avec Rmd sans LaTeX (car interaction complexe, apprentissage spécifique, etc.)
+
+---
+## La solution
+
+{pagedown}
+
+Romain Lesur + Yihui Xe (+lien conf RStudio)
+
+lien github + documentation
+
+Utilisation de technologies Web (donc possibilité de s'appuyer sur des spécialistes du sujet comme des graphistes et designers)
+
+---
+## Fondations
+
+paged.js + Paged Media
+
+=> utilisation de la documentation
+
+---
+## Comment ça fonctionne ?
+
+`html_paged` et `chrome_print` 
+
+---
+## Et il y a d'autres templates ?
+
++ pagedreport
++ CV
+
+---
+# Et si je veux construire mon propre thème ?
+
+---
+## Appliquer le reste du CSS
+
++ fonts
++ titres
++ couleurs
++ etc.
+
+---
+## La page
+
+---
+## Tirer profit des contraintes de dimensions
+---
+## Page de garde et dernière page
+
+--
+## Contenus dans les marges
+
+---
+## Sauts de pages
+
+---
+## Développer en pratique
+
+AR avec screen/print/package
+Diviser les blocs de style
+Variables CSS
+
+---
+## Trouver de la documentation et du support
+
+---
+# Et en pratique, ça donne quoi ?
+
+---
+## La démarche PROPRE - rapport
+
++ montrer les interactions avec R (exemple largeur variable)
++ mentionner aussi que ça fonctionne en pagedreport avec JS (d'où l'interet d'avoir des technos web)
++ organisation du travail (découpé + un graphiste spécialiste)
++ blocs spécifiques
+
+---
+## CT Data - fiches automatisées
+
++ contraintes de la génération (pas forcément identique partout)
++ nécessite de bien spécifier la taille des sorties
++ structure de forme très présente dans le document
++ puis génération de rapport avec des paramètres et une fonction spécifique
+
+---
+class: last
+
+Merci de votre attention.
+
+Remerciements :
+
+- Julien Taquet
+- Romain Lesur
+- Diane Beldame
+
+Un besoin autour de pagedown ? -> thomas@tillac-data.com
