@@ -101,7 +101,7 @@ Il est possible d'imprimer des pages Web spécialement mises en forme grâce au 
 
 {`pagedown`} implémente principalement :
 
-+ Des formats RMarkdown, dont `html_paged` qui va appeler paged.js et des fonctions pour "découper" et reconstruire le contenu en pages.
++ Des formats RMarkdown, dont `html_paged` qui va appeler paged.js et des fonctions pour "découper" (*Fragmentation CSS*) et reconstruire le contenu en pages.
 
 + Des fichiers CSS standards liés aux formats `r icon::fontawesome(style = "solid", "arrow-alt-circle-right")` **nos modifications passent principalement par là**
 
@@ -191,49 +191,136 @@ class: inverse, center, middle
 ---
 ## Appliquer le reste du CSS
 
+`r icon::fontawesome(style = "solid", "check")` On commence par construire les éléments classiques en CSS sur les différentes classes :
+
++ Les polices
+
+```
+p {
+  font-family: "Roboto";
+}
+
+h1, h2, h3 {
+  font-family: "Lato";
+}
+```
+
++ Les couleurs
+
+```
+ul, li {
+  color: #741336;
+}
+```
+
+---
+## Appliquer le reste du CSS
+
++ Les tailles et styles
+
+```
+blockquote {
+  font-size: 12pt;
+  text-transform : uppercase;
+}
+```
+
++ Les bordures
+
+```
+h3 {
+  border-bottom: solid black 1px;
+}
+```
+
++ Aux espacements (`line-height`) et marges (`margin` et `padding`) -> `r icon::fontawesome(style = "solid", "bomb")` attention aux interactions avec la suite !
+
++ Et ainsi de suite...
+
+---
+## Appliquer le reste du CSS
+
+Il faut principalement penser :
+
++ Aux titres, de `h1` à `h3`, voire plus si besoin
+
++ Y compris les éléments de la première page : `h1.title`, `h1.subtitle`, `h2.date`, `h2.author`, sauf en ce qui concerne leur positionnement
+
++ Aux paragraphes et listes : `p`, `li`, `ul`
+
++ Aux liens : `a`
+
++ Aux blocs : `blockquote`
+
++ Aux tableaux éventuellement  `tr`, `td`
+
 `r icon::fontawesome(style = "solid", "book")` [Documentation Mozilla](https://developer.mozilla.org/fr/docs/Web/CSS)
 
-+ fonts
-+ titres
-+ couleurs
-+ etc.
+`r icon::fontawesome(style = "solid", "lightbulb")` Ce CSS peut être commun avec d'autres formats RMarkdown.
 
 ---
 ## La page
 
+Dimensions
+
+@page et types de page
+
 ---
 ## Tirer profit des contraintes de dimensions
+
+img 100%
+
+tableaux -> un problème récurrent avec des solutions : 
+https://github.com/rstudio/pagedown/issues/162
+https://gitlab.pagedmedia.org/tools/pagedjs/issues/85
+
+position absolute
 ---
 ## Page de garde et dernière page
 
---
+@page:first
+@page:last (depuis peu)
+
+---
 ## Contenus dans les marges
+
+```{r, out.height='300px', fig.align='center'}
+knitr::include_graphics("https://www.pagedjs.org/documentation/images/margin-boxes.png", dpi = 200)
+```
 
 ---
 ## Sauts de pages
 
+`page-break-inside`
+pages nommées
+
 ---
 ## Développer en pratique
 
-AR avec screen/print/package
-Diviser les blocs de style
+AR avec screen/print/package --> https://github.com/spyrales/gouvdown/blob/propre/inst/resources/css/propre/interface/interface.css
+Diviser les blocs de style entre plusieurs fichiers
 Variables CSS
-Construire des formats
+Construire des formats R et Rmd
 
 ---
 ## Trouver de la documentation
 
 + Regarder des utilisations existantes
 
-JDBarillas, etc (regarder la liste sur Github pagedown)
+JDBarillas : https://github.com/jdbarillas/executive_summary
+SGDF : https://github.com/tvroylandt/sgdf_pagedown
+PROPRE (présentée plus bas)
+omni : https://github.com/rfortherestofus/omni
 
-+ PR Romain 
++ PR Romain : https://github.com/rstudio/pagedown/pull/81/files
 
-+ Prez Romain uRos
++ Prez Romain uRos: https://speakerdeck.com/rlesur/reproducible-corporate-publications-with-pagedown
 
-+ pagedjs bien sûr
++ pagedjs bien sûr : https://www.pagedjs.org/documentation/
 
-+ gitlab pagedjs
++ gitlab pagedjs https://gitlab.pagedmedia.org/tools/pagedjs (et les issues)
+
++ github pagedown (et les issues) https://github.com/rstudio/pagedown
 
 ---
 class: inverse, center, middle
@@ -243,6 +330,10 @@ class: inverse, center, middle
 ---
 ## La démarche PROPRE - rapport
 
+https://github.com/spyrales/gouvdown/pull/34
+
+https://github.com/spyrales/propre.brochure
+
 + montrer les interactions avec R (exemple largeur variable)
 + mentionner aussi que ça fonctionne en pagedreport avec JS (d'où l'interet d'avoir des technos web)
 + organisation du travail (découpé + un graphiste spécialiste)
@@ -251,24 +342,19 @@ class: inverse, center, middle
 ---
 ## CT Data - fiches automatisées
 
+https://housingprofiles.pschousing.org/
+https://housing-profiles.s3.amazonaws.com/2020/Bloomfield.pdf
+
 + contraintes de la génération (pas forcément identique partout)
 + nécessite de bien spécifier la taille des sorties
 + structure de forme très présente dans le document
 + puis génération de rapport avec des paramètres et une fonction spécifique
 
-
----
-## Remerciements
-
-- Julien Taquet
-- Romain Lesur
-- Diane Beldame
-
-Un besoin autour de pagedown ? -> thomas@tillac-data.com
-
 ---
 class: last, center, middle
 
-# Merci de votre attention.
+# Merci de votre attention !
 
-# Pour discuter : [thomas@tillac-data.com](mailto:thomas@tillac-data.com)
+### Merci aussi à Romain Lesur, Julien Taquet, Christophe Dervieux, Diane Beldame, David Keyes pour leurs échanges et leur travail sur le sujet !
+
+# `r icon::fontawesome(style = "solid", "phone")`  Pour discuter : [thomas@tillac-data.com](mailto:thomas@tillac-data.com)
