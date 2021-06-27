@@ -6,7 +6,7 @@
     <meta name="author" content="Thomas Vroylandt" />
     <script src="slides_rr2021_pagedown_files/header-attrs/header-attrs.js"></script>
     <link rel="stylesheet" href="/home/thomas/R/x86_64-pc-linux-gnu-library/4.0/tourmentin/resources/stylesheets/tillac-fonts.css" type="text/css" />
-    <link rel="stylesheet" href="/home/thomas/R/x86_64-pc-linux-gnu-library/4.0/tourmentin/resources/stylesheets/tillac-slides.css" type="text/css" />
+    <link rel="stylesheet" href="/home/thomas/R/x86_64-pc-linux-gnu-library/4.0/tourmentin/resources/stylesheets/tillac-slides_simple.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -24,58 +24,164 @@ class: center, middle, inverse, title-slide
 
 ## Qui suis-je ?
 
-- Statisticien (Unédic actuellement)
-- Activité freelance
-- Notamment partenariat avec R For the Rest of Us
-- Présentation issue des travaux que j'ai pu mener :
++ Statisticien (à [l'Unédic](https://www.unedic.org/) actuellement)
++ Avec une [activité de conseil en plus](https://www.tillac-data.com/)
++ Développeur du package {`pagedreport`} : [documentation](https://pagedreport.rfortherestofus.com/)
 
-  - pagedreport
-  - CT Data
-  - PROPRE
-  - autres
-  
++ Cette présentation est issue des travaux que j'ai pu mener
+
+&lt;img src="https://raw.githubusercontent.com/tvroylandt/sgdf_pagedown/master/img/page1.PNG" height="300px" /&gt;&lt;img src="https://p218.p3.n0.cdn.getcloudapp.com/items/4gumRNLp/Image%202020-03-22%20at%202.24.38%20PM.png" height="300px" /&gt;&lt;img src="https://mk0rfortheresto0o08q.kinstacdn.com/wp-content/uploads/2021/01/grid.gif" height="300px" /&gt;
+
 ---
+class: inverse, center, middle
+
 # {pagedown} ???
 
 ---
-## Le problème
+## Un problème ...
 
-Génération de "beaux" pdf directement avec Rmd sans LaTeX (car interaction complexe, apprentissage spécifique, etc.)
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"&gt;&lt;/path&gt;&lt;/svg&gt; On souhaite souvent générer des PDF directement depuis R car :
+
+  + assure la reproductibilité
+  
+  + permet de ne pas changer d'outil
+  
+  + autorise des approches paramétrisées
+  
+  + c'est un format portable
+  
+  + très utilisé pour les rapports ou les documents d'entreprise
+  
+---
+## Un problème ...
+
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M440.5 88.5l-52 52L415 167c9.4 9.4 9.4 24.6 0 33.9l-17.4 17.4c11.8 26.1 18.4 55.1 18.4 85.6 0 114.9-93.1 208-208 208S0 418.9 0 304 93.1 96 208 96c30.5 0 59.5 6.6 85.6 18.4L311 97c9.4-9.4 24.6-9.4 33.9 0l26.5 26.5 52-52 17.1 17zM500 60h-24c-6.6 0-12 5.4-12 12s5.4 12 12 12h24c6.6 0 12-5.4 12-12s-5.4-12-12-12zM440 0c-6.6 0-12 5.4-12 12v24c0 6.6 5.4 12 12 12s12-5.4 12-12V12c0-6.6-5.4-12-12-12zm33.9 55l17-17c4.7-4.7 4.7-12.3 0-17-4.7-4.7-12.3-4.7-17 0l-17 17c-4.7 4.7-4.7 12.3 0 17 4.8 4.7 12.4 4.7 17 0zm-67.8 0c4.7 4.7 12.3 4.7 17 0 4.7-4.7 4.7-12.3 0-17l-17-17c-4.7-4.7-12.3-4.7-17 0-4.7 4.7-4.7 12.3 0 17l17 17zm67.8 34c-4.7-4.7-12.3-4.7-17 0-4.7 4.7-4.7 12.3 0 17l17 17c4.7 4.7 12.3 4.7 17 0 4.7-4.7 4.7-12.3 0-17l-17-17zM112 272c0-35.3 28.7-64 64-64 8.8 0 16-7.2 16-16s-7.2-16-16-16c-52.9 0-96 43.1-96 96 0 8.8 7.2 16 16 16s16-7.2 16-16z"&gt;&lt;/path&gt;&lt;/svg&gt;  Sauf que :
+  
+  + les sorties LaTeX sont peu attrayantes
+  
+&lt;img src="https://i.stack.imgur.com/Nug7W.png" height="250px" style="display: block; margin: auto;" /&gt;
+
+  + elles demandent des compétences pointues de personnalisation
+  + le multi-support (web + PDF est difficile à gérer)
 
 ---
-## La solution
+## ... une solution
 
-{pagedown}
+Il est possible d'imprimer des pages Web spécialement mises en forme grâce au projet [paged.js](https://www.pagedjs.org/).
 
-Romain Lesur + Yihui Xe (+lien conf RStudio)
+&lt;svg viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M96.06 454.35c.01 6.29 1.87 12.45 5.36 17.69l17.09 25.69a31.99 31.99 0 0 0 26.64 14.28h61.71a31.99 31.99 0 0 0 26.64-14.28l17.09-25.69a31.989 31.989 0 0 0 5.36-17.69l.04-38.35H96.01l.05 38.35zM0 176c0 44.37 16.45 84.85 43.56 115.78 16.52 18.85 42.36 58.23 52.21 91.45.04.26.07.52.11.78h160.24c.04-.26.07-.51.11-.78 9.85-33.22 35.69-72.6 52.21-91.45C335.55 260.85 352 220.37 352 176 352 78.61 272.91-.3 175.45 0 73.44.31 0 82.97 0 176zm176-80c-44.11 0-80 35.89-80 80 0 8.84-7.16 16-16 16s-16-7.16-16-16c0-61.76 50.24-112 112-112 8.84 0 16 7.16 16 16s-7.16 16-16 16z"&gt;&lt;/path&gt;&lt;/svg&gt; Transcrit pour être utilisé en R dans [pagedown](https://github.com/rstudio/pagedown) par Romain Lesur et Yihui Xie
 
-lien github + documentation
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"&gt;&lt;/path&gt;&lt;/svg&gt; Les avantages :
 
-Utilisation de technologies Web (donc possibilité de s'appuyer sur des spécialistes du sujet comme des graphistes et designers)
+  + Utilisation des outils du design Web (HTML / CSS / JS)
+  + Qualité des rendus
+  + Collaboration possible avec des spécialistes de ces technologies
+  
+&lt;svg viewBox="0 0 192 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M176 432c0 44.112-35.888 80-80 80s-80-35.888-80-80 35.888-80 80-80 80 35.888 80 80zM25.26 25.199l13.6 272C39.499 309.972 50.041 320 62.83 320h66.34c12.789 0 23.331-10.028 23.97-22.801l13.6-272C167.425 11.49 156.496 0 142.77 0H49.23C35.504 0 24.575 11.49 25.26 25.199z"&gt;&lt;/path&gt;&lt;/svg&gt; Nécessite de comprendre au moins les bases du CSS et d'HTML
 
 ---
 ## Fondations
 
-paged.js + Paged Media
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"&gt;&lt;/path&gt;&lt;/svg&gt; Il existe des "règles" officielles pour créer des documents paginés en CSS. Ce sont celles du [W3C](https://www.w3.org/TR/css-page-3/).
 
-=&gt; utilisation de la documentation
+&lt;svg viewBox="0 0 192 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M176 432c0 44.112-35.888 80-80 80s-80-35.888-80-80 35.888-80 80-80 80 35.888 80 80zM25.26 25.199l13.6 272C39.499 309.972 50.041 320 62.83 320h66.34c12.789 0 23.331-10.028 23.97-22.801l13.6-272C167.425 11.49 156.496 0 142.77 0H49.23C35.504 0 24.575 11.49 25.26 25.199z"&gt;&lt;/path&gt;&lt;/svg&gt; Sauf qu'elle ne sont pas implementées correctement dans les navigateurs.
+
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M512 176.001C512 273.203 433.202 352 336 352c-11.22 0-22.19-1.062-32.827-3.069l-24.012 27.014A23.999 23.999 0 0 1 261.223 384H224v40c0 13.255-10.745 24-24 24h-40v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24v-78.059c0-6.365 2.529-12.47 7.029-16.971l161.802-161.802C163.108 213.814 160 195.271 160 176 160 78.798 238.797.001 335.999 0 433.488-.001 512 78.511 512 176.001zM336 128c0 26.51 21.49 48 48 48s48-21.49 48-48-21.49-48-48-48-48 21.49-48 48z"&gt;&lt;/path&gt;&lt;/svg&gt; Le projet paged.js est une programme qui :
+
+  + utilise les règles présentes dans un fichier CSS
+  + pour construire un document paginé
+  + c'est une sorte de "ciseaux" + "collage" à l'échelle d'une page Web
+  
+  
+&lt;svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"&gt;&lt;/path&gt;&lt;/svg&gt; La [documentation](https://www.pagedjs.org/documentation/) est extrêmement riche
 
 ---
 ## Comment ça fonctionne ?
 
-`html_paged` et `chrome_print` 
+{`pagedown`} implémente principalement :
+
++ Des formats RMarkdown, dont `html_paged` qui va appeler paged.js et des fonctions pour "découper" et reconstruire le contenu en pages.
+
++ Des fichiers CSS standards liés aux formats &lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zM140 300h116v70.9c0 10.7 13 16.1 20.5 8.5l114.3-114.9c4.7-4.7 4.7-12.2 0-16.9l-114.3-115c-7.6-7.6-20.5-2.2-20.5 8.5V212H140c-6.6 0-12 5.4-12 12v64c0 6.6 5.4 12 12 12z"&gt;&lt;/path&gt;&lt;/svg&gt; **nos modifications passent principalement par là**
+
++ Et une fonction pour permettre l'impression en PDF : `chrome_print` (utilise l'impression de Chrome).
+
+&lt;svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M336.2 64H47.8C21.4 64 0 85.4 0 111.8v288.4C0 426.6 21.4 448 47.8 448h288.4c26.4 0 47.8-21.4 47.8-47.8V111.8c0-26.4-21.4-47.8-47.8-47.8zm189.4 37.7L416 177.3v157.4l109.6 75.5c21.2 14.6 50.4-.3 50.4-25.8V127.5c0-25.4-29.1-40.4-50.4-25.8z"&gt;&lt;/path&gt;&lt;/svg&gt; [Présentation à la RStudio Conf 2019](https://www.rstudio.com/resources/rstudioconf-2019/pagedown-creating-beautiful-pdfs-with-r-markdown-and-css/).
 
 ---
-## Et il y a d'autres templates ?
+## {`pagedreport`}
 
-+ pagedreport
-+ CV
++ &lt;svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"&gt;&lt;/path&gt;&lt;/svg&gt; [Github](https://github.com/rfortherestofus/pagedreport)
++ &lt;svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"&gt;&lt;/path&gt;&lt;/svg&gt; [Documentation](https://pagedreport.rfortherestofus.com/)
++ &lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M172.2 226.8c-14.6-2.9-28.2 8.9-28.2 23.8V301c0 10.2 7.1 18.4 16.7 22 18.2 6.8 31.3 24.4 31.3 45 0 26.5-21.5 48-48 48s-48-21.5-48-48V120c0-13.3-10.7-24-24-24H24c-13.3 0-24 10.7-24 24v248c0 89.5 82.1 160.2 175 140.7 54.4-11.4 98.3-55.4 109.7-109.7 17.4-82.9-37-157.2-112.5-172.2zM209 0c-9.2-.5-17 6.8-17 16v31.6c0 8.5 6.6 15.5 15 15.9 129.4 7 233.4 112 240.9 241.5.5 8.4 7.5 15 15.9 15h32.1c9.2 0 16.5-7.8 16-17C503.4 139.8 372.2 8.6 209 0zm.3 96c-9.3-.7-17.3 6.7-17.3 16.1v32.1c0 8.4 6.5 15.3 14.8 15.9 76.8 6.3 138 68.2 144.9 145.2.8 8.3 7.6 14.7 15.9 14.7h32.2c9.3 0 16.8-8 16.1-17.3-8.4-110.1-96.5-198.2-206.6-206.7z"&gt;&lt;/path&gt;&lt;/svg&gt; [Article de blog](https://rfortherestofus.com/2021/01/announcing-pagedreport/)
+
+&lt;svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M202.021 0C122.202 0 70.503 32.703 29.914 91.026c-7.363 10.58-5.093 25.086 5.178 32.874l43.138 32.709c10.373 7.865 25.132 6.026 33.253-4.148 25.049-31.381 43.63-49.449 82.757-49.449 30.764 0 68.816 19.799 68.816 49.631 0 22.552-18.617 34.134-48.993 51.164-35.423 19.86-82.299 44.576-82.299 106.405V320c0 13.255 10.745 24 24 24h72.471c13.255 0 24-10.745 24-24v-5.773c0-42.86 125.268-44.645 125.268-160.627C377.504 66.256 286.902 0 202.021 0zM192 373.459c-38.196 0-69.271 31.075-69.271 69.271 0 38.195 31.075 69.27 69.271 69.27s69.271-31.075 69.271-69.271-31.075-69.27-69.271-69.27z"&gt;&lt;/path&gt;&lt;/svg&gt; Projet en collaboration avec David Keyes de [R for the Rest of Us](https://rfortherestofus.com/).
+
+&lt;svg viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M96.06 454.35c.01 6.29 1.87 12.45 5.36 17.69l17.09 25.69a31.99 31.99 0 0 0 26.64 14.28h61.71a31.99 31.99 0 0 0 26.64-14.28l17.09-25.69a31.989 31.989 0 0 0 5.36-17.69l.04-38.35H96.01l.05 38.35zM0 176c0 44.37 16.45 84.85 43.56 115.78 16.52 18.85 42.36 58.23 52.21 91.45.04.26.07.52.11.78h160.24c.04-.26.07-.51.11-.78 9.85-33.22 35.69-72.6 52.21-91.45C335.55 260.85 352 220.37 352 176 352 78.61 272.91-.3 175.45 0 73.44.31 0 82.97 0 176zm176-80c-44.11 0-80 35.89-80 80 0 8.84-7.16 16-16 16s-16-7.16-16-16c0-61.76 50.24-112 112-112 8.84 0 16 7.16 16 16s-7.16 16-16 16z"&gt;&lt;/path&gt;&lt;/svg&gt; Le principe :
+
+  + construire des templates déjà designés ;
+  + qui sont personnalisables.
+  
+&lt;svg viewBox="0 0 496 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm0 432c-101.69 0-184-82.29-184-184 0-101.69 82.29-184 184-184 101.69 0 184 82.29 184 184 0 101.69-82.29 184-184 184zm0-312c-70.69 0-128 57.31-128 128s57.31 128 128 128 128-57.31 128-128-57.31-128-128-128zm0 192c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.71 64-64 64z"&gt;&lt;/path&gt;&lt;/svg&gt; L'objectif : 
+
+  + construire des produits viables et utlisables rapidement ;
+  + itérer ensuite pour construire du sur-mesure.
 
 ---
+  
+## {`pagedreport`}
+
+&lt;svg viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M96.06 454.35c.01 6.29 1.87 12.45 5.36 17.69l17.09 25.69a31.99 31.99 0 0 0 26.64 14.28h61.71a31.99 31.99 0 0 0 26.64-14.28l17.09-25.69a31.989 31.989 0 0 0 5.36-17.69l.04-38.35H96.01l.05 38.35zM0 176c0 44.37 16.45 84.85 43.56 115.78 16.52 18.85 42.36 58.23 52.21 91.45.04.26.07.52.11.78h160.24c.04-.26.07-.51.11-.78 9.85-33.22 35.69-72.6 52.21-91.45C335.55 260.85 352 220.37 352 176 352 78.61 272.91-.3 175.45 0 73.44.31 0 82.97 0 176zm176-80c-44.11 0-80 35.89-80 80 0 8.84-7.16 16-16 16s-16-7.16-16-16c0-61.76 50.24-112 112-112 8.84 0 16 7.16 16 16s-7.16 16-16 16z"&gt;&lt;/path&gt;&lt;/svg&gt; Tout se personnalise directement dans le YAML :
+
+
+```yaml
+---
+title: "Annual North"
+subtitle: "Christmas activity report"
+author: "Santa Claus"
+date: "December 2020"
+output:
+  pagedreport::paged_hazelnuts:
+    front_img: "https://images.pexels.com/photos/717988/pexels-photo-717988.jpeg?auto=compress&amp;cs=tinysrgb&amp;h=750&amp;w=1260"
+    back_img: "https://images.pexels.com/photos/3303615/pexels-photo-3303615.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500"
+    logo: "https://www.flaticon.com/svg/static/icons/svg/268/268225.svg"
+    img_to_dark: TRUE
+    logo_to_white: TRUE
+knit: pagedown::chrome_print
+toc-title: "Table of Contents"
+main-color: "#E40A2D"
+secondary-color: "#00873E"
+google-font: TRUE
+main-font: "Raleway"
+header-font: "Mountains of Christmas"
+---
+```
+
+---
+## {`pagedreport`}
+
+&lt;img src="https://user-images.githubusercontent.com/28248895/102329258-7a023800-3f88-11eb-8f4c-2f6c0cb9b562.png" height="450px" style="display: block; margin: auto;" /&gt;
+
+---
+## &lt;svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"&gt;&lt;/path&gt;&lt;/svg&gt; Faire votre CV
+
+Proposition la plus aboutie : `pagedown-cv` : le CV est une base de données (fichier Excel) et est généré ensuite.
+
+&lt;img src="https://ulyngs.github.io/pagedown-cv/examples/cur_cv_pg1.jpg" height="300px" /&gt;&lt;img src="https://ulyngs.github.io/pagedown-cv/examples/cur_cv_pg2.jpg" height="300px" /&gt;
+
+&lt;svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"&gt;&lt;/path&gt;&lt;/svg&gt; [Documentation](https://ulyngs.github.io/pagedown-cv/)
+
+Un exemple : [mon CV](https://tvroylandt.netlify.app/pdf/cv_vroylandt.pdf)
+
+---
+class: inverse, center, middle
+
 # Et si je veux construire mon propre thème ?
 
 ---
 ## Appliquer le reste du CSS
+
+&lt;svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"&gt;&lt;/path&gt;&lt;/svg&gt; [Documentation Mozilla](https://developer.mozilla.org/fr/docs/Web/CSS)
 
 + fonts
 + titres
@@ -102,11 +208,26 @@ paged.js + Paged Media
 AR avec screen/print/package
 Diviser les blocs de style
 Variables CSS
+Construire des formats
 
 ---
-## Trouver de la documentation et du support
+## Trouver de la documentation
+
++ Regarder des utilisations existantes
+
+JDBarillas, etc (regarder la liste sur Github pagedown)
+
++ PR Romain 
+
++ Prez Romain uRos
+
++ pagedjs bien sûr
+
++ gitlab pagedjs
 
 ---
+class: inverse, center, middle
+
 # Et en pratique, ça donne quoi ?
 
 ---
@@ -125,18 +246,22 @@ Variables CSS
 + structure de forme très présente dans le document
 + puis génération de rapport avec des paramètres et une fonction spécifique
 
+
 ---
-class: last
-
-Merci de votre attention.
-
-Remerciements :
+## Remerciements
 
 - Julien Taquet
 - Romain Lesur
 - Diane Beldame
 
 Un besoin autour de pagedown ? -&gt; thomas@tillac-data.com
+
+---
+class: last, center, middle
+
+# Merci de votre attention.
+
+# Pour discuter : [thomas@tillac-data.com](mailto:thomas@tillac-data.com)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -3,67 +3,195 @@ title: "Pagedown - utilisations possibles et création de thèmes"
 subtitle: "Rencontres R 2021"
 author: "Thomas Vroylandt"
 date: "13 juillet 2021"
-output: tourmentin::slides
+output: tourmentin::slides_simple
 ---
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Qui suis-je ?
 
-- Statisticien (Unédic actuellement)
-- Activité freelance
-- Notamment partenariat avec R For the Rest of Us
-- Présentation issue des travaux que j'ai pu mener :
++ Statisticien (à [l'Unédic](https://www.unedic.org/) actuellement)
++ Avec une [activité de conseil en plus](https://www.tillac-data.com/)
++ Développeur du package {`pagedreport`} : [documentation](https://pagedreport.rfortherestofus.com/)
 
-  - pagedreport
-  - CT Data
-  - PROPRE
-  - autres
-  
++ Cette présentation est issue des travaux que j'ai pu mener
+
+```{r, out.height='300px', fig.align='default', fig.show = "hold"}
+knitr::include_graphics(
+  c(
+    "https://raw.githubusercontent.com/tvroylandt/sgdf_pagedown/master/img/page1.PNG",
+    "https://p218.p3.n0.cdn.getcloudapp.com/items/4gumRNLp/Image%202020-03-22%20at%202.24.38%20PM.png",
+    "https://mk0rfortheresto0o08q.kinstacdn.com/wp-content/uploads/2021/01/grid.gif"
+  ),
+  dpi = 300
+)
+```
+
 ---
+class: inverse, center, middle
+
 # {pagedown} ???
 
 ---
-## Le problème
+## Un problème ...
 
-Génération de "beaux" pdf directement avec Rmd sans LaTeX (car interaction complexe, apprentissage spécifique, etc.)
+`r icon::fontawesome(style = "solid", "arrow-alt-circle-right")` On souhaite souvent générer des PDF directement depuis R car :
+
+  + assure la reproductibilité
+  
+  + permet de ne pas changer d'outil
+  
+  + autorise des approches paramétrisées
+  
+  + c'est un format portable
+  
+  + très utilisé pour les rapports ou les documents d'entreprise
+  
+---
+## Un problème ...
+
+`r icon::fontawesome(style = "solid", "bomb")`  Sauf que :
+  
+  + les sorties LaTeX sont peu attrayantes
+  
+```{r, out.height='250px', fig.align = 'center'}
+knitr::include_graphics("https://i.stack.imgur.com/Nug7W.png", dpi = 100)
+```
+
+  + elles demandent des compétences pointues de personnalisation
+  + le multi-support (web + PDF est difficile à gérer)
 
 ---
-## La solution
+## ... une solution
 
-{pagedown}
+Il est possible d'imprimer des pages Web spécialement mises en forme grâce au projet [paged.js](https://www.pagedjs.org/).
 
-Romain Lesur + Yihui Xe (+lien conf RStudio)
+`r icon::fontawesome(style = "solid", "lightbulb")` Transcrit pour être utilisé en R dans [pagedown](https://github.com/rstudio/pagedown) par Romain Lesur et Yihui Xie
 
-lien github + documentation
+`r icon::fontawesome(style = "solid", "arrow-alt-circle-right")` Les avantages :
 
-Utilisation de technologies Web (donc possibilité de s'appuyer sur des spécialistes du sujet comme des graphistes et designers)
+  + Utilisation des outils du design Web (HTML / CSS / JS)
+  + Qualité des rendus
+  + Collaboration possible avec des spécialistes de ces technologies
+  
+`r icon::fontawesome(style = "solid", "exclamation")` Nécessite de comprendre au moins les bases du CSS et d'HTML
 
 ---
 ## Fondations
 
-paged.js + Paged Media
+`r icon::fontawesome(style = "solid", "check")` Il existe des "règles" officielles pour créer des documents paginés en CSS. Ce sont celles du [W3C](https://www.w3.org/TR/css-page-3/).
 
-=> utilisation de la documentation
+`r icon::fontawesome(style = "solid", "exclamation")` Sauf qu'elle ne sont pas implementées correctement dans les navigateurs.
+
+`r icon::fontawesome(style = "solid", "key")` Le projet paged.js est une programme qui :
+
+  + utilise les règles présentes dans un fichier CSS
+  + pour construire un document paginé
+  + c'est une sorte de "ciseaux" + "collage" à l'échelle d'une page Web
+  
+  
+`r icon::fontawesome(style = "solid", "book")` La [documentation](https://www.pagedjs.org/documentation/) est extrêmement riche
 
 ---
 ## Comment ça fonctionne ?
 
-`html_paged` et `chrome_print` 
+{`pagedown`} implémente principalement :
+
++ Des formats RMarkdown, dont `html_paged` qui va appeler paged.js et des fonctions pour "découper" et reconstruire le contenu en pages.
+
++ Des fichiers CSS standards liés aux formats `r icon::fontawesome(style = "solid", "arrow-alt-circle-right")` **nos modifications passent principalement par là**
+
++ Et une fonction pour permettre l'impression en PDF : `chrome_print` (utilise l'impression de Chrome).
+
+`r icon::fontawesome(style = "solid", "video")` [Présentation à la RStudio Conf 2019](https://www.rstudio.com/resources/rstudioconf-2019/pagedown-creating-beautiful-pdfs-with-r-markdown-and-css/).
 
 ---
-## Et il y a d'autres templates ?
+## {`pagedreport`}
 
-+ pagedreport
-+ CV
++ `r icon::fontawesome(style = "solid", "code-branch")` [Github](https://github.com/rfortherestofus/pagedreport)
++ `r icon::fontawesome(style = "solid", "book")` [Documentation](https://pagedreport.rfortherestofus.com/)
++ `r icon::fontawesome(style = "solid", "blog")` [Article de blog](https://rfortherestofus.com/2021/01/announcing-pagedreport/)
+
+`r icon::fontawesome(style = "solid", "question")` Projet en collaboration avec David Keyes de [R for the Rest of Us](https://rfortherestofus.com/).
+
+`r icon::fontawesome(style = "solid", "lightbulb")` Le principe :
+
+  + construire des templates déjà designés ;
+  + qui sont personnalisables.
+  
+`r icon::fontawesome(style = "solid", "bullseye")` L'objectif : 
+
+  + construire des produits viables et utlisables rapidement ;
+  + itérer ensuite pour construire du sur-mesure.
 
 ---
+  
+## {`pagedreport`}
+
+`r icon::fontawesome(style = "solid", "lightbulb")` Tout se personnalise directement dans le YAML :
+
+```{yaml, echo = TRUE, eval= FALSE}
+---
+title: "Annual North"
+subtitle: "Christmas activity report"
+author: "Santa Claus"
+date: "December 2020"
+output:
+  pagedreport::paged_hazelnuts:
+    front_img: "https://images.pexels.com/photos/717988/pexels-photo-717988.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+    back_img: "https://images.pexels.com/photos/3303615/pexels-photo-3303615.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    logo: "https://www.flaticon.com/svg/static/icons/svg/268/268225.svg"
+    img_to_dark: TRUE
+    logo_to_white: TRUE
+knit: pagedown::chrome_print
+toc-title: "Table of Contents"
+main-color: "#E40A2D"
+secondary-color: "#00873E"
+google-font: TRUE
+main-font: "Raleway"
+header-font: "Mountains of Christmas"
+---
+```
+
+---
+## {`pagedreport`}
+
+```{r, out.height='450px', fig.align='center'}
+knitr::include_graphics("https://user-images.githubusercontent.com/28248895/102329258-7a023800-3f88-11eb-8f4c-2f6c0cb9b562.png", dpi = 200)
+```
+
+---
+## `r icon::fontawesome(style = "solid", "file")` Faire votre CV
+
+Proposition la plus aboutie : `pagedown-cv` : le CV est une base de données (fichier Excel) et est généré ensuite.
+
+```{r, out.height='300px', fig.align='default', fig.show = "hold"}
+knitr::include_graphics(
+  c(
+    "https://ulyngs.github.io/pagedown-cv/examples/cur_cv_pg1.jpg",
+    "https://ulyngs.github.io/pagedown-cv/examples/cur_cv_pg2.jpg"
+  ),
+  dpi = 200
+)
+```
+
+`r icon::fontawesome(style = "solid", "book")` [Documentation](https://ulyngs.github.io/pagedown-cv/)
+
+Un exemple : [mon CV](https://tvroylandt.netlify.app/pdf/cv_vroylandt.pdf)
+
+---
+class: inverse, center, middle
+
 # Et si je veux construire mon propre thème ?
 
 ---
 ## Appliquer le reste du CSS
+
+`r icon::fontawesome(style = "solid", "book")` [Documentation Mozilla](https://developer.mozilla.org/fr/docs/Web/CSS)
 
 + fonts
 + titres
@@ -90,11 +218,26 @@ paged.js + Paged Media
 AR avec screen/print/package
 Diviser les blocs de style
 Variables CSS
+Construire des formats
 
 ---
-## Trouver de la documentation et du support
+## Trouver de la documentation
+
++ Regarder des utilisations existantes
+
+JDBarillas, etc (regarder la liste sur Github pagedown)
+
++ PR Romain 
+
++ Prez Romain uRos
+
++ pagedjs bien sûr
+
++ gitlab pagedjs
 
 ---
+class: inverse, center, middle
+
 # Et en pratique, ça donne quoi ?
 
 ---
@@ -113,15 +256,19 @@ Variables CSS
 + structure de forme très présente dans le document
 + puis génération de rapport avec des paramètres et une fonction spécifique
 
+
 ---
-class: last
-
-Merci de votre attention.
-
-Remerciements :
+## Remerciements
 
 - Julien Taquet
 - Romain Lesur
 - Diane Beldame
 
 Un besoin autour de pagedown ? -> thomas@tillac-data.com
+
+---
+class: last, center, middle
+
+# Merci de votre attention.
+
+# Pour discuter : [thomas@tillac-data.com](mailto:thomas@tillac-data.com)
