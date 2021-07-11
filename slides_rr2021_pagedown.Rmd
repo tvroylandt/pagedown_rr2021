@@ -493,8 +493,8 @@ D'autres fonctionnalités non évoquées existent ou sont en cours d'implémenta
   let StateShapeCont = document.querySelector('h1.title')
                                .textContent
                                .replace(/\s+/g, "_");
-  let StateShapeContUrl = 'url(style/img/state_shape/' + 
-          StateShapeCont + '.png)';
+  let StateShapeContUrl =
+    `url(style/img/state_shape/${StateShapeCont}.png)`;
   document.documentElement.style.setProperty('--state-shape', 
           StateShapeContUrl);
 };
