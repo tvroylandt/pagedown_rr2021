@@ -84,9 +84,9 @@ Il est possible d'imprimer des pages Web spécialement mises en forme grâce au 
 ---
 ## Fondations
 
-`r icon::fontawesome(style = "solid", "check")` Il existe des "règles" officielles pour créer des documents paginés en CSS. Ce sont celles du [W3C](https://www.w3.org/TR/css-page-3/).
+`r icon::fontawesome(style = "solid", "check")` Il existe un projet de spécifications officielles pour créer des documents paginés en CSS. Ce sont celles du [W3C](https://www.w3.org/TR/css-page-3/).
 
-`r icon::fontawesome(style = "solid", "exclamation")` Sauf qu'elle ne sont pas implementées correctement dans les navigateurs.
+`r icon::fontawesome(style = "solid", "exclamation")` Sauf qu'elle ne sont pas encore implementées correctement dans les navigateurs.
 
 `r icon::fontawesome(style = "solid", "key")` Le projet paged.js est une programme qui :
 
@@ -106,7 +106,7 @@ Il est possible d'imprimer des pages Web spécialement mises en forme grâce au 
 
 + Des fichiers CSS standards liés aux formats `r icon::fontawesome(style = "solid", "arrow-alt-circle-right")` **nos modifications passent principalement par là**
 
-+ Et une fonction pour permettre l'impression en PDF : `chrome_print` (utilise l'impression de Chrome).
++ Et une fonction pour permettre l'impression en PDF : `chrome_print` (utilise l'impression de Chrome ou de Edge).
 
 `r icon::fontawesome(style = "solid", "video")` [Présentation à la RStudio Conf 2019](https://www.rstudio.com/resources/rstudioconf-2019/pagedown-creating-beautiful-pdfs-with-r-markdown-and-css/).
 
