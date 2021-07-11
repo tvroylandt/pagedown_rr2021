@@ -552,25 +552,71 @@ class: inverse, center, middle
 ---
 ## La démarche PROPRE - rapport
 
-https://github.com/spyrales/gouvdown/pull/34
+Pour plus de détail sur le projet, voir les présentations d'hier sur PROPRE et [`gouvdown`](https://github.com/tvroylandt/gouvdown_rr_2021).
 
-https://github.com/spyrales/propre.brochure
+`r icon::fontawesome(style = "solid", "code-branch")` La [PR](https://github.com/spyrales/gouvdown/pull/34) et le [repo de démonstration de la brochure](https://github.com/spyrales/propre.brochure)
 
-+ montrer les interactions avec R (exemple largeur variable)
-+ mentionner aussi que ça fonctionne en pagedreport avec JS (d'où l'interet d'avoir des technos web)
-+ organisation du travail (découpé + un graphiste spécialiste)
-+ blocs spécifiques
+```{r, fig.height=4, fig.align='center'}
+knitr::include_graphics("https://raw.githubusercontent.com/spyrales/propre.brochure/master/screenshot.png", dpi = 600)
+```
+
+---
+## La démarche PROPRE - rapport
+
+`r icon::fontawesome(style = "solid", "user-friends")` Une organisation du travail originale avec un graphiste et un dev R : un grand merci à Julien Taquet.
+
+`r icon::fontawesome(style = "solid", "check")` A la source des bonnes pratiques mentionnées plus haut
+
+`r icon::fontawesome(style = "solid", "terminal")` Des [interactions avec R](https://github.com/spyrales/gouvdown/pull/34/files#diff-2082c075edcc0879e60c8d3026822594d3bbe152713e013fa5d58d0a609e54e5) pour définir une largeur de colonne variable
+
+```
+width_css <- tempfile(fileext = ".css")
+
+writeLines(paste(
+  paste0(":root {--main-column-width:", width_main_column , "%;}"),
+  paste0(":root {--secondary-column-width:", 100 - width_main_column - 5, 
+          "%;}"), sep = "\n"
+),
+con = width_css)
+
+# render
+pagedown::html_paged(
+  [...]
+  css = c(css, book_css, width_css, made_with_css),
+  ...
+)
+```
 
 ---
 ## CT Data - fiches automatisées
 
-https://housingprofiles.pschousing.org/
-https://housing-profiles.s3.amazonaws.com/2020/Bloomfield.pdf
+`r icon::fontawesome(style = "solid", "building")` Un projet en collaboration avec [R for the Rest of Us](https://rfortherestofus.com/) et [CTData](https://www.ctdata.org/) pour le [Partnership for Strong Communities](https://www.pschousing.org/)
 
-+ contraintes de la génération (pas forcément identique partout)
-+ nécessite de bien spécifier la taille des sorties
-+ structure de forme très présente dans le document
-+ puis génération de rapport avec des paramètres et une fonction spécifique
+`r icon::fontawesome(style = "solid", "map")` Générer des [rapports automatisés](https://housingprofiles.pschousing.org/) sur chaque ville du Connecticut : [Bloomfield](https://housing-profiles.s3.amazonaws.com/2020/Bloomfield.pdf)
+
+```{r, fig.align='center', out.height='200px', out.width='400px'}
+knitr::include_graphics("img/psc_housing_1.png", dpi = 300)
+knitr::include_graphics("img/psc_housing_2.png", dpi = 300)
+```
+
+---
+## CT Data - fiches automatisées
+
+`r icon::fontawesome(style = "solid", "bomb")` La principale contrainte est la génération automatique :
+
+  + les graphiques ne comportent pas forcément le même nombre d'éléments 
+  + des textes générés peuvent se retrouver à vide
+  + des trous dans les données peuvent créer des erreurs
+  
+`r icon::fontawesome(style = "solid", "check")` Il faut donc :
+
+  + bien spécifier la taille de chaque sortie
+  + remplir les valeurs manquantes dans les jeux de données et prévoir ces cas
+  
+`r icon::fontawesome(style = "solid", "file")` Pour une structure aussi stricte, la forme est très présente dans le Rmd :
+
+  + pages nommées
+  + utilisation de CSS pour les mises en colonnes
 
 ---
 class: last, center, middle
