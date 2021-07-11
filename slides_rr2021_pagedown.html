@@ -251,62 +251,283 @@ Il faut principalement penser :
 ---
 ## La page
 
-Dimensions
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"&gt;&lt;/path&gt;&lt;/svg&gt; **La page est l'élément central du package** :
 
-@page et types de page
++ Au travers de l'argument `@page`
 
++ On fixe ses dimensions au début par 
+
+```
+@page {
+ size: 210mm 297mm;
+}
+```
+
++ Certaines pages ont des caractéristiques particulières :
+
+  + `first` et `last`
+  + `blank`
+  + `left` et `right`
+  + les [pages nommées](https://www.pagedjs.org/documentation/08-named-pages/)
+  
+```
+.chapter {
+    page: chapter;
+}
+```
 ---
 ## Tirer profit des contraintes de dimensions
 
-img 100%
+ &lt;svg viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M634.91 154.88C457.74-8.99 182.19-8.93 5.09 154.88c-6.66 6.16-6.79 16.59-.35 22.98l34.24 33.97c6.14 6.1 16.02 6.23 22.4.38 145.92-133.68 371.3-133.71 517.25 0 6.38 5.85 16.26 5.71 22.4-.38l34.24-33.97c6.43-6.39 6.3-16.82-.36-22.98zM320 352c-35.35 0-64 28.65-64 64s28.65 64 64 64 64-28.65 64-64-28.65-64-64-64zm202.67-83.59c-115.26-101.93-290.21-101.82-405.34 0-6.9 6.1-7.12 16.69-.57 23.15l34.44 33.99c6 5.92 15.66 6.32 22.05.8 83.95-72.57 209.74-72.41 293.49 0 6.39 5.52 16.05 5.13 22.05-.8l34.44-33.99c6.56-6.46 6.33-17.06-.56-23.15z"&gt;&lt;/path&gt;&lt;/svg&gt; Dans le monde du Web, tout est relatif :
+ 
+ + les tailles des images 
+ 
+ + les positions des éléments
+ 
+ + tout dépend de la taille de l'écran de l'utilisateur
 
-tableaux 
+&lt;svg viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M96.06 454.35c.01 6.29 1.87 12.45 5.36 17.69l17.09 25.69a31.99 31.99 0 0 0 26.64 14.28h61.71a31.99 31.99 0 0 0 26.64-14.28l17.09-25.69a31.989 31.989 0 0 0 5.36-17.69l.04-38.35H96.01l.05 38.35zM0 176c0 44.37 16.45 84.85 43.56 115.78 16.52 18.85 42.36 58.23 52.21 91.45.04.26.07.52.11.78h160.24c.04-.26.07-.51.11-.78 9.85-33.22 35.69-72.6 52.21-91.45C335.55 260.85 352 220.37 352 176 352 78.61 272.91-.3 175.45 0 73.44.31 0 82.97 0 176zm176-80c-44.11 0-80 35.89-80 80 0 8.84-7.16 16-16 16s-16-7.16-16-16c0-61.76 50.24-112 112-112 8.84 0 16 7.16 16 16s-7.16 16-16 16z"&gt;&lt;/path&gt;&lt;/svg&gt; Ici, la dimension aide :
 
-position absolute
++ les tailles des images sont fixes (ajouter un `img {max-width : 100%;}`)
+
++ on peut utiliser le `position: absolute;` de façon récurrente pour placer les objets (sans que ce soit obligatoire)
+
++ mais on peut avoir quelques problèmes sur les tableaux, avec des [solu](https://github.com/rstudio/pagedown/issues/162)-[tions](https://gitlab.pagedmedia.org/tools/pagedjs/issues/85)
+
 ---
 ## Page de garde et dernière page
 
-@page:first
-@page:last (depuis peu)
+Un exemple de première page :
+
+&lt;img src="img/page_first_proust.png" width="270" style="display: block; margin: auto;" /&gt;
+
+---
+## Page de garde et dernière page
+
+```
+@page:first{
+  margin: 0 0 0 0;
+  background-image: url(../style/Marcel_Proust_signature.svg), 
+                    var(--front-cover);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 30%, 70%;
+  background-position: 100px 900px, 200px 500px;
+  background-color :  #ffeecb;
+}
+```
+
+Et 
+
+```
+h1, h2, h3 {
+	color: var(--main-color);
+	font-weight: 900;
+}
+
+.title, .subtitle, .author, .date{
+	color : black;
+	margin-left: 1cm;
+	margin-right: 3cm;
+}
+```
+
+---
+## Page de garde et dernière page
+
+&lt;svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M480 416v16c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V176c0-26.51 21.49-48 48-48h16v208c0 44.112 35.888 80 80 80h336zm96-80V80c0-26.51-21.49-48-48-48H144c-26.51 0-48 21.49-48 48v256c0 26.51 21.49 48 48 48h384c26.51 0 48-21.49 48-48zM256 128c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-96 144l55.515-55.515c4.686-4.686 12.284-4.686 16.971 0L272 256l135.515-135.515c4.686-4.686 12.284-4.686 16.971 0L512 208v112H160v-48z"&gt;&lt;/path&gt;&lt;/svg&gt; On peut paramétriser les images depuis le YAML :
+
+Dans le YAML :
+
+```
+output: 
+  pagedown::html_paged:
+    front_cover: style/mountain.png
+    back_cover: style/proust.png
+```
+
+Dans le CSS :
+
+`var(--front-cover)`
+`var(--back-cover)`
+
+Et on peut en mettre [plusieurs - page 42](https://pagedown.rbind.io/).
 
 ---
 ## Contenus dans les marges
 
+On peut placer du contenu dans les marges
+
 &lt;img src="https://www.pagedjs.org/documentation/images/margin-boxes.png" height="300px" style="display: block; margin: auto;" /&gt;
 
 ---
+## Contenus dans les marges
+
+Exemple de ma page de garde
+
+```
+@page:first{
+  @top-left {
+    content: none;
+  }
+  @top-right {
+    content: none;
+  }
+	@left-top {
+		content: "";
+		background-color: var(--main-color);
+	}
+	@left-middle {
+		content: "";
+	  	background-color: var(--color-paper);
+	}
+	@left-bottom {
+		content: "";
+	  	background-color: var(--color-paper);
+	}
+}
+```
+---
+## Contenus dans les marges
+
+Ou pour créer une pagination alternée par exemple
+
+```
+@page:left {
+    @bottom-left {
+      content: counter(page);
+    }
+```
+
+```
+@page:right {
+    @bottom-right {
+      content: counter(page);
+    }
+```
+
+Ou pour mettre une image depuis une variable CSS 
+
+```
+@page chapter: {
+    @top-right {
+            content: string(title);
+            background-image: var(--state-shape);
+        }
+```
+---
 ## Sauts de pages
 
-`page-break-inside`
-pages nommées
+&lt;svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"&gt;&lt;/path&gt;&lt;/svg&gt; Pour sauter une page :
+
++ la fin d'une page nommée termine la page ;
+
++ on peut utiliser les fonctions CSS :
+
+  + `page-break-after: always;` ou `avoid`
+  + `page-break-inside`
+  + avec des comportements parfois étranges
+
+---
+## Autres fonctionnalités
+
+D'autres fonctionnalités non évoquées existent ou sont en cours d'implémentation :
+
++ table des matières ;
+
++ [note de bas de page](https://gitlab.pagedmedia.org/tools/pagedjs/issues/161)
+
+&lt;svg viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M296 160H180.6l42.6-129.8C227.2 15 215.7 0 200 0H56C44 0 33.8 8.9 32.2 20.8l-32 240C-1.7 275.2 9.5 288 24 288h118.7L96.6 482.5c-3.6 15.2 8 29.5 23.3 29.5 8.4 0 16.4-4.4 20.8-12l176-304c9.3-15.9-2.2-36-20.7-36z"&gt;&lt;/path&gt;&lt;/svg&gt; Et le package est en plein développement.
 
 ---
 ## Développer en pratique
 
-AR avec screen/print/package --&gt; https://github.com/spyrales/gouvdown/blob/propre/inst/resources/css/propre/interface/interface.css
-Diviser les blocs de style entre plusieurs fichiers
-Variables CSS
-Construire des formats R et Rmd
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"&gt;&lt;/path&gt;&lt;/svg&gt; Diviser ses fichiers CSS en :
+
+  + interface : tout ce qui sert à calibrer les fichiers : avec le paramètre `screen`
+  + modules : tout ce qui va effectivement faire le style
+  + [un exemple](https://github.com/spyrales/gouvdown/blob/propre/inst/resources/css/propre/interface/interface.css)
+
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"&gt;&lt;/path&gt;&lt;/svg&gt; Diviser les blocs de styles en plusieurs fichiers par thématique :  layout, variables, colors, fonts, etc.
+
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"&gt;&lt;/path&gt;&lt;/svg&gt; Utiliser des variables CSS depuis `:root` pour construire le style : couleur, taille de marge, police, lien vers une image, etc.
+
+```
+:root {
+    /* fonts */
+    --font-body: "Calibri";
+    --font-title: "Calibri";
+    /* colors */
+    --main-color: #e5801c; /* light orange */
+    --secondary-color: #b35136; /* darker shade of orange */
+    /* img */
+    --state-shape: url(../img/state_shape/000_black_box.png);
+  }
+```
+
+---
+## Développer en pratique
+
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"&gt;&lt;/path&gt;&lt;/svg&gt; Construire des [templates Rmd](https://bookdown.org/yihui/rmarkdown/document-templates.html) pour une utilisation répétée
+
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"&gt;&lt;/path&gt;&lt;/svg&gt; Gérer les interactions depuis l'externe - option 1 : avec [JavaScript](https://github.com/rfortherestofus/pagedreport/blob/main/inst/resources/html/template_paged.html#L183)
+
+&lt;svg viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M96.06 454.35c.01 6.29 1.87 12.45 5.36 17.69l17.09 25.69a31.99 31.99 0 0 0 26.64 14.28h61.71a31.99 31.99 0 0 0 26.64-14.28l17.09-25.69a31.989 31.989 0 0 0 5.36-17.69l.04-38.35H96.01l.05 38.35zM0 176c0 44.37 16.45 84.85 43.56 115.78 16.52 18.85 42.36 58.23 52.21 91.45.04.26.07.52.11.78h160.24c.04-.26.07-.51.11-.78 9.85-33.22 35.69-72.6 52.21-91.45C335.55 260.85 352 220.37 352 176 352 78.61 272.91-.3 175.45 0 73.44.31 0 82.97 0 176zm176-80c-44.11 0-80 35.89-80 80 0 8.84-7.16 16-16 16s-16-7.16-16-16c0-61.76 50.24-112 112-112 8.84 0 16 7.16 16 16s-7.16 16-16 16z"&gt;&lt;/path&gt;&lt;/svg&gt; On génère une variable CSS qu'on va réutiliser
+
+```
+(function() {
+    let StateShape = document.querySelector('h1.title');
+    let StateShapeCont = StateShape.textContent;
+    StateShapeCont = StateShapeCont.replace(/\s+/g, "_");
+    let StateShapeContUrl = 'url(style/img/state_shape/' + 
+          StateShapeCont + '.png)';
+    document.documentElement.style.setProperty('--state-shape', 
+          StateShapeContUrl);
+})();
+```
+
+---
+## Développer en pratique
+
+&lt;svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"&gt;&lt;/path&gt;&lt;/svg&gt; Gérer les interactions depuis l'externe - option 2 : [avec R](https://github.com/rfortherestofus/pagedreport/blob/main/R/paged_hazelnuts.R#L27)
+
+&lt;svg viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M96.06 454.35c.01 6.29 1.87 12.45 5.36 17.69l17.09 25.69a31.99 31.99 0 0 0 26.64 14.28h61.71a31.99 31.99 0 0 0 26.64-14.28l17.09-25.69a31.989 31.989 0 0 0 5.36-17.69l.04-38.35H96.01l.05 38.35zM0 176c0 44.37 16.45 84.85 43.56 115.78 16.52 18.85 42.36 58.23 52.21 91.45.04.26.07.52.11.78h160.24c.04-.26.07-.51.11-.78 9.85-33.22 35.69-72.6 52.21-91.45C335.55 260.85 352 220.37 352 176 352 78.61 272.91-.3 175.45 0 73.44.31 0 82.97 0 176zm176-80c-44.11 0-80 35.89-80 80 0 8.84-7.16 16-16 16s-16-7.16-16-16c0-61.76 50.24-112 112-112 8.84 0 16 7.16 16 16s-7.16 16-16 16z"&gt;&lt;/path&gt;&lt;/svg&gt; On génère une variable CSS ou une image qu'on va réutiliser (nécessite un template)
+
+```
+if (img_to_dark == TRUE) {
+    front_img_init &lt;-
+      magick::image_read(front_img)
+    front_img_ok &lt;-
+      magick::image_colorize(front_img_init, opacity = 50, color = "black")
+
+  front_img &lt;- paste0(tempfile("front_img"), ".jpg")
+    magick::image_write(front_img_ok, front_img, format = "jpg")
+  }
+  
+  pagedown::html_paged(
+    front_cover = c(front_img),
+    ...
+  )
+```
 
 ---
 ## Trouver de la documentation
 
-+ Regarder des utilisations existantes
+&lt;svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"&gt;&lt;/path&gt;&lt;/svg&gt; Regarder des utilisations existantes : 
 
-JDBarillas : https://github.com/jdbarillas/executive_summary
-SGDF : https://github.com/tvroylandt/sgdf_pagedown
-PROPRE (présentée plus bas)
-omni : https://github.com/rfortherestofus/omni
+  + Par [J-D Barillas](https://github.com/jdbarillas/executive_summary)
+  + [Template SGDF](https://github.com/tvroylandt/sgdf_pagedown)
+  + PROPRE (présentée plus bas)
+  + [Omni](https://github.com/rfortherestofus/omni)
 
-+ PR Romain : https://github.com/rstudio/pagedown/pull/81/files
+&lt;svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M480 416v16c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V176c0-26.51 21.49-48 48-48h16v208c0 44.112 35.888 80 80 80h336zm96-80V80c0-26.51-21.49-48-48-48H144c-26.51 0-48 21.49-48 48v256c0 26.51 21.49 48 48 48h384c26.51 0 48-21.49 48-48zM256 128c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-96 144l55.515-55.515c4.686-4.686 12.284-4.686 16.971 0L272 256l135.515-135.515c4.686-4.686 12.284-4.686 16.971 0L512 208v112H160v-48z"&gt;&lt;/path&gt;&lt;/svg&gt; [Présentation à uRos](https://speakerdeck.com/rlesur/reproducible-corporate-publications-with-pagedown) par Romain Lesur
+  
+&lt;svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"&gt;&lt;/path&gt;&lt;/svg&gt; [Une PR sur le Github](https://github.com/rstudio/pagedown/pull/81/files)
 
-+ Prez Romain uRos: https://speakerdeck.com/rlesur/reproducible-corporate-publications-with-pagedown
+&lt;svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"&gt;&lt;/path&gt;&lt;/svg&gt; [Les issues](https://github.com/rstudio/pagedown/issues/)
 
-+ pagedjs bien sûr : https://www.pagedjs.org/documentation/
-
-+ gitlab pagedjs https://gitlab.pagedmedia.org/tools/pagedjs (et les issues)
-
-+ github pagedown (et les issues) https://github.com/rstudio/pagedown
+&lt;svg viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"&gt;&lt;/path&gt;&lt;/svg&gt; La documentation de [paged.js](https://www.pagedjs.org/documentation/)
+  
+&lt;svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" style="height:1em;fill:currentColor;position:relative;display:inline-block;top:.1em;"&gt;  [ comment ]  &lt;path d="M384 144c0-44.2-35.8-80-80-80s-80 35.8-80 80c0 36.4 24.3 67.1 57.5 76.8-.6 16.1-4.2 28.5-11 36.9-15.4 19.2-49.3 22.4-85.2 25.7-28.2 2.6-57.4 5.4-81.3 16.9v-144c32.5-10.2 56-40.5 56-76.3 0-44.2-35.8-80-80-80S0 35.8 0 80c0 35.8 23.5 66.1 56 76.3v199.3C23.5 365.9 0 396.2 0 432c0 44.2 35.8 80 80 80s80-35.8 80-80c0-34-21.2-63.1-51.2-74.6 3.1-5.2 7.8-9.8 14.9-13.4 16.2-8.2 40.4-10.4 66.1-12.8 42.2-3.9 90-8.4 118.2-43.4 14-17.4 21.1-39.8 21.6-67.9 31.6-10.8 54.4-40.7 54.4-75.9zM80 64c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm0 384c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm224-320c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16z"&gt;&lt;/path&gt;&lt;/svg&gt; [Le Gitlab de paged.js](https://gitlab.pagedmedia.org/tools/pagedjs)
 
 ---
 class: inverse, center, middle

@@ -3,7 +3,8 @@ title: "Pagedown - utilisations possibles et création de thèmes"
 subtitle: "Rencontres R 2021"
 author: "Thomas Vroylandt"
 date: "13 juillet 2021"
-output: tourmentin::slides_simple
+output:
+  tourmentin::slides_simple
 ---
 
 ```{r setup, include=FALSE}
@@ -261,66 +262,287 @@ Il faut principalement penser :
 ---
 ## La page
 
-Dimensions
+`r icon::fontawesome(style = "solid", "check")` **La page est l'élément central du package** :
 
-@page et types de page
++ Au travers de l'argument `@page`
 
++ On fixe ses dimensions au début par 
+
+```
+@page {
+ size: 210mm 297mm;
+}
+```
+
++ Certaines pages ont des caractéristiques particulières :
+
+  + `first` et `last`
+  + `blank`
+  + `left` et `right`
+  + les [pages nommées](https://www.pagedjs.org/documentation/08-named-pages/)
+  
+```
+.chapter {
+    page: chapter;
+}
+```
 ---
 ## Tirer profit des contraintes de dimensions
 
-img 100%
+ `r icon::fontawesome(style = "solid", "wifi")` Dans le monde du Web, tout est relatif :
+ 
+ + les tailles des images 
+ 
+ + les positions des éléments
+ 
+ + tout dépend de la taille de l'écran de l'utilisateur
 
-tableaux -> un problème récurrent avec des solutions : 
-https://github.com/rstudio/pagedown/issues/162
-https://gitlab.pagedmedia.org/tools/pagedjs/issues/85
+`r icon::fontawesome(style = "solid", "lightbulb")` Ici, la dimension aide :
 
-position absolute
++ les tailles des images sont fixes (ajouter un `img {max-width : 100%;}`)
+
++ on peut utiliser le `position: absolute;` de façon récurrente pour placer les objets (sans que ce soit obligatoire)
+
++ mais on peut avoir quelques problèmes sur les tableaux, avec des [solu](https://github.com/rstudio/pagedown/issues/162)-[tions](https://gitlab.pagedmedia.org/tools/pagedjs/issues/85)
+
 ---
 ## Page de garde et dernière page
 
-@page:first
-@page:last (depuis peu)
+Un exemple de première page :
+
+```{r, fig.height=4, fig.align='center'}
+knitr::include_graphics("img/page_first_proust.png", dpi = 200)
+```
+
+---
+## Page de garde et dernière page
+
+```
+@page:first{
+  margin: 0 0 0 0;
+  background-image: url(../style/Marcel_Proust_signature.svg), 
+                    var(--front-cover);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 30%, 70%;
+  background-position: 100px 900px, 200px 500px;
+  background-color :  #ffeecb;
+}
+```
+
+Et 
+
+```
+h1, h2, h3 {
+	color: var(--main-color);
+	font-weight: 900;
+}
+
+.title, .subtitle, .author, .date{
+	color : black;
+	margin-left: 1cm;
+	margin-right: 3cm;
+}
+```
+
+---
+## Page de garde et dernière page
+
+`r icon::fontawesome(style = "solid", "images")` On peut paramétriser les images depuis le YAML :
+
+Dans le YAML :
+
+```
+output: 
+  pagedown::html_paged:
+    front_cover: style/mountain.png
+    back_cover: style/proust.png
+```
+
+Dans le CSS :
+
+`var(--front-cover)`
+`var(--back-cover)`
+
+Et on peut en mettre [plusieurs - page 42](https://pagedown.rbind.io/).
 
 ---
 ## Contenus dans les marges
+
+On peut placer du contenu dans les marges
 
 ```{r, out.height='300px', fig.align='center'}
 knitr::include_graphics("https://www.pagedjs.org/documentation/images/margin-boxes.png", dpi = 200)
 ```
 
 ---
+## Contenus dans les marges
+
+Exemple de ma page de garde
+
+```
+@page:first{
+  @top-left {
+    content: none;
+  }
+  @top-right {
+    content: none;
+  }
+	@left-top {
+		content: "";
+		background-color: var(--main-color);
+	}
+	@left-middle {
+		content: "";
+	  	background-color: var(--color-paper);
+	}
+	@left-bottom {
+		content: "";
+	  	background-color: var(--color-paper);
+	}
+}
+```
+---
+## Contenus dans les marges
+
+Ou pour créer une pagination alternée par exemple
+
+```
+@page:left {
+    @bottom-left {
+      content: counter(page);
+    }
+```
+
+```
+@page:right {
+    @bottom-right {
+      content: counter(page);
+    }
+```
+
+Ou pour mettre une image depuis une variable CSS 
+
+```
+@page chapter: {
+    @top-right {
+            content: string(title);
+            background-image: var(--state-shape);
+        }
+```
+---
 ## Sauts de pages
 
-`page-break-inside`
-pages nommées
+`r icon::fontawesome(style = "solid", "file")` Pour sauter une page :
+
++ la fin d'une page nommée termine la page ;
+
++ on peut utiliser les fonctions CSS :
+
+  + `page-break-after: always;` ou `avoid`
+  + `page-break-inside`
+  + avec des comportements parfois étranges
+
+---
+## Autres fonctionnalités
+
+D'autres fonctionnalités non évoquées existent ou sont en cours d'implémentation :
+
++ table des matières ;
+
++ [note de bas de page](https://gitlab.pagedmedia.org/tools/pagedjs/issues/161)
+
+`r icon::fontawesome(style = "solid", "bolt")` Et le package est en plein développement.
 
 ---
 ## Développer en pratique
 
-AR avec screen/print/package --> https://github.com/spyrales/gouvdown/blob/propre/inst/resources/css/propre/interface/interface.css
-Diviser les blocs de style entre plusieurs fichiers
-Variables CSS
-Construire des formats R et Rmd
+`r icon::fontawesome(style = "solid", "check")` Diviser ses fichiers CSS en :
+
+  + interface : tout ce qui sert à calibrer les fichiers : avec le paramètre `screen`
+  + modules : tout ce qui va effectivement faire le style
+  + [un exemple](https://github.com/spyrales/gouvdown/blob/propre/inst/resources/css/propre/interface/interface.css)
+
+`r icon::fontawesome(style = "solid", "check")` Diviser les blocs de styles en plusieurs fichiers par thématique :  layout, variables, colors, fonts, etc.
+
+`r icon::fontawesome(style = "solid", "check")` Utiliser des variables CSS depuis `:root` pour construire le style : couleur, taille de marge, police, lien vers une image, etc.
+
+```
+:root {
+    /* fonts */
+    --font-body: "Calibri";
+    --font-title: "Calibri";
+    /* colors */
+    --main-color: #e5801c; /* light orange */
+    --secondary-color: #b35136; /* darker shade of orange */
+    /* img */
+    --state-shape: url(../img/state_shape/000_black_box.png);
+  }
+```
+
+---
+## Développer en pratique
+
+`r icon::fontawesome(style = "solid", "check")` Construire des [templates Rmd](https://bookdown.org/yihui/rmarkdown/document-templates.html) pour une utilisation répétée
+
+`r icon::fontawesome(style = "solid", "check")` Gérer les interactions depuis l'externe - option 1 : avec [JavaScript](https://github.com/rfortherestofus/pagedreport/blob/main/inst/resources/html/template_paged.html#L183)
+
+`r icon::fontawesome(style = "solid", "lightbulb")` On génère une variable CSS qu'on va réutiliser
+
+```
+(function() {
+    let StateShape = document.querySelector('h1.title');
+    let StateShapeCont = StateShape.textContent;
+    StateShapeCont = StateShapeCont.replace(/\s+/g, "_");
+    let StateShapeContUrl = 'url(style/img/state_shape/' + 
+          StateShapeCont + '.png)';
+    document.documentElement.style.setProperty('--state-shape', 
+          StateShapeContUrl);
+})();
+```
+
+---
+## Développer en pratique
+
+`r icon::fontawesome(style = "solid", "check")` Gérer les interactions depuis l'externe - option 2 : [avec R](https://github.com/rfortherestofus/pagedreport/blob/main/R/paged_hazelnuts.R#L27)
+
+`r icon::fontawesome(style = "solid", "lightbulb")` On génère une variable CSS ou une image qu'on va réutiliser (nécessite un template)
+
+```
+if (img_to_dark == TRUE) {
+    front_img_init <-
+      magick::image_read(front_img)
+    front_img_ok <-
+      magick::image_colorize(front_img_init, opacity = 50, color = "black")
+
+  front_img <- paste0(tempfile("front_img"), ".jpg")
+    magick::image_write(front_img_ok, front_img, format = "jpg")
+  }
+  
+  pagedown::html_paged(
+    front_cover = c(front_img),
+    ...
+  )
+```
 
 ---
 ## Trouver de la documentation
 
-+ Regarder des utilisations existantes
+`r icon::fontawesome(style = "solid", "file")` Regarder des utilisations existantes : 
 
-JDBarillas : https://github.com/jdbarillas/executive_summary
-SGDF : https://github.com/tvroylandt/sgdf_pagedown
-PROPRE (présentée plus bas)
-omni : https://github.com/rfortherestofus/omni
+  + Par [J-D Barillas](https://github.com/jdbarillas/executive_summary)
+  + [Template SGDF](https://github.com/tvroylandt/sgdf_pagedown)
+  + PROPRE (présentée plus bas)
+  + [Omni](https://github.com/rfortherestofus/omni)
 
-+ PR Romain : https://github.com/rstudio/pagedown/pull/81/files
+`r icon::fontawesome(style = "solid", "images")` [Présentation à uRos](https://speakerdeck.com/rlesur/reproducible-corporate-publications-with-pagedown) par Romain Lesur
+  
+`r icon::fontawesome(style = "solid", "code-branch")` [Une PR sur le Github](https://github.com/rstudio/pagedown/pull/81/files)
 
-+ Prez Romain uRos: https://speakerdeck.com/rlesur/reproducible-corporate-publications-with-pagedown
+`r icon::fontawesome(style = "solid", "code-branch")` [Les issues](https://github.com/rstudio/pagedown/issues/)
 
-+ pagedjs bien sûr : https://www.pagedjs.org/documentation/
-
-+ gitlab pagedjs https://gitlab.pagedmedia.org/tools/pagedjs (et les issues)
-
-+ github pagedown (et les issues) https://github.com/rstudio/pagedown
+`r icon::fontawesome(style = "solid", "book")` La documentation de [paged.js](https://www.pagedjs.org/documentation/)
+  
+`r icon::fontawesome(style = "solid", "code-branch")` [Le Gitlab de paged.js](https://gitlab.pagedmedia.org/tools/pagedjs)
 
 ---
 class: inverse, center, middle
