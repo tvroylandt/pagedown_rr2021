@@ -489,15 +489,16 @@ D'autres fonctionnalités non évoquées existent ou sont en cours d'implémenta
 `r icon::fontawesome(style = "solid", "lightbulb")` On génère une variable CSS qu'on va réutiliser
 
 ```
-(function() {
-    let StateShape = document.querySelector('h1.title');
-    let StateShapeCont = StateShape.textContent;
-    StateShapeCont = StateShapeCont.replace(/\s+/g, "_");
-    let StateShapeContUrl = 'url(style/img/state_shape/' + 
-          StateShapeCont + '.png)';
-    document.documentElement.style.setProperty('--state-shape', 
-          StateShapeContUrl);
-})();
+{
+  let StateShapeCont = document.querySelector('h1.title')
+                               .textContent
+                               .replace(/\s+/g, "_");
+  let StateShapeContUrl =
+    `url(style/img/state_shape/${StateShapeCont}.png)`;
+  document.documentElement
+          .style
+          .setProperty('--state-shape', StateShapeContUrl);
+}
 ```
 
 ---
