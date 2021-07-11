@@ -495,9 +495,10 @@ D'autres fonctionnalités non évoquées existent ou sont en cours d'implémenta
                                .replace(/\s+/g, "_");
   let StateShapeContUrl =
     `url(style/img/state_shape/${StateShapeCont}.png)`;
-  document.documentElement.style.setProperty('--state-shape', 
-          StateShapeContUrl);
-};
+  document.documentElement
+          .style
+          .setProperty('--state-shape', StateShapeContUrl);
+}
 ```
 
 ---
